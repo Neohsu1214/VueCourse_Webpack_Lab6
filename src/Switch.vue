@@ -2,22 +2,24 @@
     <div>
         <div
                 id="on"
-                @click="isOn = true"
-                :class="{active: isOn}">On</div>
+                @click="switched(true)"
+                :class="{active: value}">On</div>
         <div
                 id="off"
-                @click="isOn = false"
-                :class="{active: !isOn}">Off</div>
+                @click="switched(false)"
+                :class="{active: !value}">Off</div>
     </div>
 </template>
 
+<!-- 複習child component取值與回傳值給parent component的方法：props 與 this.$emit(事件名稱, 新值)！ 但你會發現 parent component 若是用 v-model 後，自己就處理完了與 child component的雙向綁定!! -->
 <script>
     export default {
-        data() {
-            return {
-                isOn: true
-            };
-        }
+        props: ['value'],
+        methods: {
+        switched: function(isOn) {
+            this.$emit('input', isOn);
+        }   
+    }
     }
 </script>
 
