@@ -117,13 +117,20 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                     <button
-                            class="btn btn-primary">Submit!
+                            class="btn btn-primary"
+                            @click.prevent="submitted">Submit!
+                            <!-- 用 prevent 是不希望點了按鈕後真的送出表單，而是希望交由 vue 去處理事件 -->
+                    </button>
+                    <button
+                            class="btn btn-warning"
+                            @click.prevent="reset">Reset!
+                            <!-- 用 prevent 是不希望點了按鈕後真的送出表單，而是希望交由 vue 去處理事件 -->
                     </button>
                 </div>
             </div>
         </form>
         <hr>
-        <div class="row">
+        <div class="row" v-if="isSubmit">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -165,7 +172,26 @@
                 gender: 'Male', // radio button
                 selectedPriority: 'High', // select 值
                 priorities: ['High', 'Medium', 'Low'], // select options
-                dataSwitch: 'On' // 自製開關 component
+                dataSwitch: 'On', // 自製開關 component
+                isSubmit: false
+            }
+        },
+        methods: {
+            submitted: function() { // 也可以寫成 submitted() {}
+                this.isSubmit = true;
+            },
+            reset: function() {
+                this.userData.email = '';
+                this.userData.password = '';
+                this.userData.age = 41;
+
+                this.message = '';
+                this.sendMail = [];
+                this.gender = 'Male';
+                this.selectedPriority = '';
+                this.dataSwitch = 'On';
+
+                this.isSubmit = false;
             }
         },
         components: {
